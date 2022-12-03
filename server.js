@@ -9,3 +9,7 @@ app.listen(8080, function() {
 app.get('/pet', function(req, res) {
     res.send('펫 용품 쇼핑 페이지입니다.');
 });
+
+app.get('/', function(req, res) {
+    res.sendfile(__dirname + '/index.html')
+});
