@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const bodyParser= require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(8080, function() {
     console.log('listening on 8080');
@@ -12,4 +14,14 @@ app.get('/pet', function(req, res) {
 
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html')
+});
+
+app.get('/write', (req, res)  => {
+    res.sendfile(__dirname + '/write.html')
+});
+
+app.post('/add', (req, res) => {
+    res.send('전송완료');
+    console.log(req.body);
+    console.log(req.body.title);
 });
