@@ -5,7 +5,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // mongoDB connect
 const MongoClient = require('mongodb').MongoClient;
+
+let db;
+
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.urfd2va.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
+    if(error) return console.log(error);    
+
+    db = client.db('todoapp');
+
+    // db.collection('post').insertOne('저장할 데이터', (error, result) => {
+    //     console.log('저장완료');
+    // });
+
     app.listen(8080, function() {
         console.log('listening on 8080');
     });
@@ -26,7 +37,10 @@ app.get('/write', (req, res)  => {
 });
 
 app.post('/add', (req, res) => {
+    
+    db.collection('post').insertOne({title : req.body.title, date : req.body.date}, (error, result) => {
+        console.log('저장완료');
+    });
+    
     res.send('전송완료');
-    console.log(req.body);
-    console.log(req.body.title);
 });
