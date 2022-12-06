@@ -6,6 +6,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 // mongoDB connect
 const MongoClient = require('mongodb').MongoClient;
 
+// ejs
+app.set('view engine', 'ejs');
+
 let db;
 
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.urfd2va.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
@@ -29,11 +32,11 @@ app.get('/pet', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/index.html')
+    res.sendfile(__dirname + '/index.html');
 });
 
 app.get('/write', (req, res)  => {
-    res.sendfile(__dirname + '/write.html')
+    res.sendfile(__dirname + '/write.html');
 });
 
 app.post('/add', (req, res) => {
@@ -43,4 +46,11 @@ app.post('/add', (req, res) => {
     });
     
     res.send('전송완료');
+});
+
+app.get('/list', (req, res)  => {
+    db.collection('post').find().toArray((error, result) => {
+        console.log(result);
+        res.render('list.ejs', { posts : result });
+    });
 });
