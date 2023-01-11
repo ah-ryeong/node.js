@@ -64,3 +64,11 @@ app.get('/list', (req, res)  => {
         res.render('list.ejs', { posts : result });
     });
 });
+
+app.delete('/delete', (req, res) => {
+    console.log(req.body);
+    req.body._id = parseInt(req.body._id);
+    db.collection('post').deleteOne(req.body, (error, result)=>{
+        console.log('삭제완료');
+    });
+}); 
